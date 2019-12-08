@@ -33,14 +33,13 @@ class App extends Component {
         // `spread operator` OR `...` adds all current players 
         // ...to object passed to setState()
         players: 
-          [ ...this.state.players,
+          [ ...prevState.players,
             { name,
               score: 0,
               id: this.prevplayerId += 1 }]
       } 
     })
   }
-
 
   handleRemovePlayer = (id) => {
     this.setState( prevState => {
