@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import Header from './Header';
 import Player from './Player';
+import AddPlayerForm from './AddPlayerForm';
+
 
 class App extends Component {
+
+  // set initial state for properties of scoreboard app using `players` Object
   state = {
     players: [
       { name: "Nico", score: 0, id: 1 },
@@ -12,12 +16,31 @@ class App extends Component {
     ]
   };
 
+  prevplayerId = 4;
+
   handleScoreChange = (index, delta) => {
     this.setState( prevState => ({
       score: prevState.players[index].score += delta
     }));
     console.log('index: ' + index, 'delta: ' + delta);
   }
+
+  handleAddPlayer = (name) => {
+    // console.log(...this.state.players)
+    this.setState( prevState => {
+      return {
+        // try... console.log(prevState)
+        // `spread operator` OR `...` adds all current players 
+        // ...to object passed to setState()
+        players: 
+          [ ...this.state.players,
+            { name,
+              score: 0,
+              id: this.prevplayerId += 1 }]
+      } 
+    })
+  }
+
 
   handleRemovePlayer = (id) => {
     this.setState( prevState => {
@@ -32,6 +55,7 @@ class App extends Component {
       <div className="scoreboard">
         <Header 
           title="Scoreboard" 
+          players={this.state.players}
           totalPlayers={this.state.players.length} 
         />
   
@@ -47,6 +71,9 @@ class App extends Component {
             removePlayer={this.handleRemovePlayer}           
           />
         )}
+        <AddPlayerForm 
+          addPlayer={this.handleAddPlayer}
+        />
       </div>
     );
   }
