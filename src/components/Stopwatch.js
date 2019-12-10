@@ -19,16 +19,25 @@ class Stopwatch extends Component {
     }
   }
 
+  handleReset = () => {
+    this.setState({ elapsedTime: 0 });
+  }
+
   componentDidMount() {
     this.intervalId = setInterval(() => this.timePassingYouBy(), 100);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalId);
+    console.log('--Component unmounted, timer stopped--')
   }
 
   timePassingYouBy = () => {
     // write down notes from teamtreehouse.com/library/update-the-stopwatch-state-component
     // ...00:42, 1:00 minute
-    console.log('time is passing...')
     if (this.state.isRunning) {
       const now = Date.now();
+      console.log(now)
       this.setState( prevState => ({
         previosTime: now,
         elapsedTime: prevState.elapsedTime + (now - this.state.previosTime)
@@ -37,14 +46,24 @@ class Stopwatch extends Component {
   }
 
   render() {
+    const seconds = Math.floor(this.state.elapsedTime / 1000)
     return(
       <div className="stopwatch">
-        <h2>Stopwatch</h2>
-        <span className="stopwatch-time"></span>
+        <h2>
+          Stopwatch
+        </h2>
+        {/* stopwatch time */}
+        <span className="stopwatch-time">
+          { seconds }
+        </span>
+        {/* start, stop stopwatch */}
         <button onClick={ this.handleStopwatch }>
-          {this.state.isRunning ? 'Stop' : 'Start' }
+          { this.state.isRunning ? 'Stop' : 'Start' }
         </button>
-        <button>Reset</button>
+        {/* reset stopwatch */}
+        <button onClick={ this.handleReset }>
+          Reset
+        </button>
       </div>
     )
   }
