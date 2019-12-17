@@ -1,10 +1,10 @@
 import React from 'react';
 
 
-const Stats = (props) => {
-  
-  const totalPlayers = props.players.length
-  const totalPoints = props.players.reduce((total, player) => {
+const Stats = ({ players }) => {
+
+  const totalPlayers = players.length
+  const totalPoints = players.reduce((total, player) => {
     // initialize total to value = 0 as second parameter of reduce()
     return total + player.score;
   }, 0)
@@ -13,7 +13,7 @@ const Stats = (props) => {
     <table className="stats">
     <tbody>
       <tr>
-        <td></td>
+        <td>Total Players</td>
         <td>{ totalPlayers }</td>
       </tr>
       <tr>
